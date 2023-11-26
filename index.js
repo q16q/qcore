@@ -8,7 +8,7 @@ let client = new Client({
 })
 
 let loadModules = () => {
-    for(i in readdirSync('modules')) {
+    for(i of readdirSync('modules')) {
         console.log(`Loading module: ${i}`)
         var module = require(`./modules/${i}`)
         config.modules.push(module)
