@@ -1,0 +1,2 @@
+# qcore
+discord modular bot
