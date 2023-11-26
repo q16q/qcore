@@ -1,5 +1,5 @@
 # qcore
-discord modular bot
+Basic Discord modular bot
 
 ## installation
 Requires [node.js](https://nodejs.org/en)  
