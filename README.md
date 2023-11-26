@@ -2,7 +2,7 @@
 # qcore
 Basic Discord modular bot
 
-## installation
+## installation & use
 Requires [node.js](https://nodejs.org/en)  
 Set your bot token in `.env` file:  
 ex. `TOKEN=aaabbbbcccc`  
