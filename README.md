@@ -1,3 +1,4 @@
+![banner](https://github.com/q16q/qcore/blob/main/banner.png?raw=true)
 # qcore
 Basic Discord modular bot
 
