@@ -16,10 +16,12 @@ module.exports = {
                 array[j] = temp;
             }
         }
+        interaction.client.vclib.beforeShuffle = interaction.client.vclib.queue[0]
         shuffleArray(interaction.client.vclib.queue);
         if(interaction.client.vclib.loopCurrent) interaction.client.vclib.loopCurrent = false;
         if(interaction.client.vclib.loopQueue) shuffleArray(interaction.client.vclib.lQueue);
         interaction.client.soundlib.playSound('shuffle', interaction.member.voice.channel)
+        interaction.client.vclib.shuffled = true
         interaction.reply('`🔀: Перемешано`').catch(() => {});
     }
 }

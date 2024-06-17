@@ -13,6 +13,8 @@ module.exports = {
         client.vclib.loopQueue = false;
         client.vclib.loopCurrent = false;
         client.vclib.currentConnection = null;
+        client.vclib.shuffled = false;
+        client.vclib.beforeShuffle = null;
         play.setToken({ soundcloud: { client_id: (await play.getFreeClientID()) } })
         
         client.log(0, 'loaded google api key', 'voicelib')
@@ -60,7 +62,8 @@ module.exports = {
             if(client.vclib.queue.length < 1) return;
             let video = client.vclib.queue[0];
             if(!client.vclib.loopCurrent && !client.vclib.loopQueue){
-                client.vclib.queue.shift();
+                if(!client.vclib.shuffled) client.vclib.queue.shift()
+                else { client.vclib.shuffled = false; client.vclib.beforeShuffle = null }
                 video = client.vclib.queue[0];
                 if (client.vclib.queue.length < 1) return;
                 if(video[4].fromPlaylist) {
@@ -72,8 +75,12 @@ module.exports = {
                 }
                 return video[1]
             } else {
-                console.log(client.vclib.lQueue)
-                if(client.vclib.loopQueue) client.vclib.queue.shift();
+                if(client.vclib.loopQueue) {
+                    if(client.vclib.shuffled) {
+                        client.vclib.shuffled = false;
+                        client.vclib.beforeShuffle = null;
+                    } else client.vclib.queue.shift();
+                }
                 if(client.vclib.lQueue.length > 0 && client.vclib.queue.length < 1) {
                     for(r of client.vclib.lQueue) client.vclib.queue.push(r)
                 }

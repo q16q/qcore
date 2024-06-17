@@ -8,7 +8,8 @@ module.exports = {
         if(!interaction.member.voice.channel) return interaction.reply('`❌: Вы не в голосовом канале!`').catch(() => {});
         if(!interaction.client.vclib.currentPlayer) return interaction.reply('`❌: Плеер не инициализирован!`').catch(() => {});
         if(!['playing', 'paused'].includes(interaction.client.vclib.currentPlayer.state.status)) return interaction.reply('`❌: Музыка не играет!`').catch(() => {});
-        let videoInfo = interaction.client.vclib.queue[0][4]
+        let video = interaction.client.vclib.beforeShuffle ? interaction.client.vclib.beforeShuffle : interaction.client.vclib.queue[0];
+        let videoInfo = video[4];
 
         var mind = videoInfo.duration % (60 * 60);
         var minutes = Math.floor(mind / 60);
