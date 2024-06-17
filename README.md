@@ -1,5 +1,5 @@
 # qcore
-/* yet another generic moderation and utility bot */
+/* yet another generic moderation and utility bot */<br>
 dev: @q16q
 
 ## installation
