@@ -64,6 +64,15 @@ module.exports = {
 
             await reply.edit({ embeds: [embed], content: '_ _' }).catch(() => {});
         } else {
+            var hours = Math.floor(info.totalDuration / (60 * 60));
+
+            var divisor_for_minutes = info.totalDuration % (60 * 60);
+            var minutes = Math.floor(divisor_for_minutes / 60);
+        
+            var divisor_for_seconds = divisor_for_minutes % 60;
+            var seconds = Math.ceil(divisor_for_seconds);
+            
+            let totalDuration = `${hours}:${minutes}:${seconds}`
             let embed = new EmbedBuilder()
                 .setTitle(`${info.name}`)
                 .setFooter({text: `Запрошено: ${interaction.user.tag}`, iconURL: interaction.user.displayAvatarURL({ extension: 'webp', forceStatic: true, size: 64})})
@@ -73,7 +82,8 @@ module.exports = {
                 .addFields(
                     { name: '№', value: interaction.client.vclib.queue.length + "", inline: true},
                     { name: 'Кол-во треков', value: info.tracks.length + "", inline: true },
-                    { name: 'Автор', value: `${info.author}`, inline: true }
+                    { name: 'Автор', value: `${info.author}`, inline: true },
+                    { name: 'Длительность', value: `${totalDuration}`, inline: true }
                 )
 
             await reply.edit({ embeds: [embed], content: '_ _' }).catch(() => {});

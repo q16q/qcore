@@ -236,6 +236,10 @@ module.exports = {
         }
 
         client.vclib.validate = async (url) => {
+            if((url.includes('youtu.be') || url.includes('youtube.com')) && url.includes('&list')) return 'yt_playlist'
+            if(url.includes('youtu.be') || url.includes('youtube.com')) return 'yt_video'
+            if(url.includes('soundcloud.com') && url.includes('sets')) return 'so_playlist'
+            if(url.includes('soundcloud.com')) return 'so_track'
             return await play.validate(url)
         }
 
@@ -269,6 +273,7 @@ module.exports = {
             } else {
                 // importing playlist
                 // console.log(info.tracks)
+                let totalDuration = 0;
                 for(track of info.tracks) {
                     let trackType = await client.vclib.validate(track.url)
                     let trackInfo;
@@ -279,6 +284,7 @@ module.exports = {
                         trackInfo = await client.vclib.getInfo(track.url.split('&list')[0], trackType)
                     }
                     trackInfo = await client.vclib.parseRawInfo(trackInfo)
+                    totalDuration += trackInfo.duration;
 
                     let channel = options.channel;
                     trackInfo.fromPlaylist = true
@@ -288,6 +294,7 @@ module.exports = {
                     console.log(trackInfo)
                     if(client.vclib.loopQueue) client.vclib.lQueue.push([channel, null, trackInfo.url, trackInfo.name, trackInfo])
                 }
+                info.totalDuration = totalDuration
                 if(client.vclib.queue.length == info.tracks.length) await client.vclib.playQueue()
                 return info;
             }
