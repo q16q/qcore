@@ -151,7 +151,7 @@ module.exports = {
                 return {
                     name: rawInfo.title,
                     url: rawInfo.url,
-                    tracks: await rawInfo.all_videos(),
+                    tracks: (await rawInfo.fetch()).all_videos,
                     thumbnail: rawInfo.thumbnail ? rawInfo.thumbnail.url : (await rawInfo.all_videos())[0].thumbnails[0].url,
                     author: rawInfo.channel.name,
                     playlist: true
@@ -161,7 +161,7 @@ module.exports = {
                 return {
                     name: rawInfo.title,
                     url: rawInfo.url,
-                    tracks: await rawInfo.all_tracks(),
+                    tracks: (await rawInfo.fetch()).tracks,
                     thumbnail: rawInfo.picture.medium,
                     author: rawInfo.creator.name,
                     playlist: true
@@ -171,7 +171,7 @@ module.exports = {
                 return {
                     name: rawInfo.name,
                     url: rawInfo.url,
-                    tracks: await rawInfo.all_tracks(),
+                    tracks: (await rawInfo.fetch()).tracks,
                     thumbnail: rawInfo.tracks[0].thumbnail,
                     author: rawInfo.user.name,
                     playlist: true
@@ -181,7 +181,7 @@ module.exports = {
                 return {
                     name: rawInfo.name,
                     url: rawInfo.url,
-                    tracks: await rawInfo.all_tracks(),
+                    tracks: (await rawInfo.fetch()).all_tracks,
                     thumbnail: rawInfo.thumbnail.url,
                     author: rawInfo.owner.name,
                     playlist: true
@@ -254,6 +254,7 @@ module.exports = {
             if(options.mode == 'url') rawInfo = await client.vclib.getInfo(options.url, options.type)
             // console.log(rawInfo)
             let info = await client.vclib.parseRawInfo(rawInfo)
+            if(!info) return;
             console.log(info)
             if(!info.playlist) {
                 let stream = await client.vclib.getAudioStream(info.url)
@@ -272,18 +273,10 @@ module.exports = {
                 return info;
             } else {
                 // importing playlist
-                // console.log(info.tracks)
+                console.log(info.tracks)
                 let totalDuration = 0;
                 for(track of info.tracks) {
-                    let trackType = await client.vclib.validate(track.url)
-                    let trackInfo;
-                    try {
-                        trackInfo = await client.vclib.getInfo(track.url.split('&list')[0], trackType)
-                    } catch(err) {
-                        if(String(err).includes('429')) await sleep(5000)
-                        trackInfo = await client.vclib.getInfo(track.url.split('&list')[0], trackType)
-                    }
-                    trackInfo = await client.vclib.parseRawInfo(trackInfo)
+                    let trackInfo = await client.vclib.parseRawInfo(track)
                     totalDuration += trackInfo.duration;
 
                     let channel = options.channel;
