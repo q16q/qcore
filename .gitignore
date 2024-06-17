@@ -1,0 +1,10 @@
+*.env
+*.jsonenv
+*.log
+*.whitelist
+*.mcwhitelist
+node_modules
+configs
+.data
+__pycache__
+birthdays.py

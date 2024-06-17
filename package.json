@@ -1,0 +1,26 @@
+{
+  "name": "qlcore",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "register": "node register.js",
+    "start": "node index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@hardxploit/mc-status": "^0.2.1",
+    "@ytdl/ytdl": "^1.4.16",
+    "axios": "^1.7.2",
+    "discord-speech-recognition": "^3.4.1",
+    "discord.js": "^14.15.2",
+    "dotenv": "^16.4.5",
+    "ffmpeg-static": "^5.2.0",
+    "fs": "^0.0.1-security",
+    "libsodium-wrappers": "^0.7.13",
+    "opusscript": "^0.1.1",
+    "play-dl": "^1.9.7",
+    "ytdl-core": "^4.11.5"
+  }
+}
