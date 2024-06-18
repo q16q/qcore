@@ -1,4 +1,5 @@
 const { joinVoiceChannel, createAudioPlayer, createAudioResource } = require('@discordjs/voice');
+const { statfsSync } = require('fs');
 const sleep = require('util').promisify(setTimeout)
 require('dotenv').config({ path: '../.env' })
 const play = require('play-dl');
@@ -85,7 +86,7 @@ module.exports = {
                     for(r of client.vclib.lQueue) client.vclib.queue.push(r)
                 }
                 if(client.vclib.loopQueue) video = client.vclib.queue[0]
-                if(video[4].fromPlaylist) {
+                if(video[4].fromPlaylist && client.vclib.loopCurrent) {
                     let stream = await client.vclib.getAudioStream(video[4].url)
                     if(video[4].youtube) video[1] = createAudioResource(stream)
                     else video[1] = createAudioResource(stream.stream, {
