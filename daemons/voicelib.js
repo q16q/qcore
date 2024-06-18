@@ -1,6 +1,4 @@
 const { joinVoiceChannel, createAudioPlayer, createAudioResource } = require('@discordjs/voice');
-const { statfsSync } = require('fs');
-const sleep = require('util').promisify(setTimeout)
 require('dotenv').config({ path: '../.env' })
 const play = require('play-dl');
 const ytdl = require('ytdl-core');
