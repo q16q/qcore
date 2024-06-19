@@ -84,9 +84,16 @@ module.exports = {
                     for(r of client.vclib.lQueue) client.vclib.queue.push(r)
                 }
                 if(client.vclib.loopQueue) video = client.vclib.queue[0]
-                if(video[4].fromPlaylist && client.vclib.loopCurrent) {
+                if(video[4].fromPlaylist) {
                     let stream = await client.vclib.getAudioStream(video[4].url)
                     if(video[4].youtube) video[1] = createAudioResource(stream)
+                    else video[1] = createAudioResource(stream.stream, {
+                        inputType: stream.type
+                    })
+                }
+                if(client.vclib.loopCurrent) {
+                    let stream = await client.vclib.getAudioStream(video[2])
+                    if(!stream.stream) video[1] = createAudioResource(stream)
                     else video[1] = createAudioResource(stream.stream, {
                         inputType: stream.type
                     })
