@@ -23,6 +23,7 @@ module.exports = {
             let message = await mainChannel.messages.fetch(bananaMessage);
             message.edit(result)
         }
+        scrapeBananas()
         setInterval(scrapeBananas, 1000 * 60  * 60)
     }
 }
