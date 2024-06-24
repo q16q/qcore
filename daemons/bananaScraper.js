@@ -6,17 +6,20 @@ module.exports = {
     async execute(client) {
         let scrapeBananas = async () => {
             let baseUrl = 'https://steamcommunity.com/market/priceoverview/?appid=2923300&currency=5&market_hash_name='
-            let bananas = ['Biosnana', 'Blackholenana', 'Hacked%20Banana', 'Shinobinana', 'Disconana']
+            let bananas = ['Biosnana', 'Blackholenana', 'Hacked%20Banana', 'Shinobinana', 'Disconana', 'Ultranana']
             let bananasResult = []
             let mainChannel = await client.channels.fetch(bananaChannel)
 
             for(let banana of bananas) {
                 let response = await axios({
                     method: 'get',
-                    url: baseUrl + banana
+                    url: baseUrl + banana,
+                    validateStatus: () => true
                 })
                 response = response.data
-                bananasResult.push(banana.replace('%20', ' ') + ' : ' + response.lowest_price)
+                try {
+                    bananasResult.push(banana.replace('%20', ' ') + ' : ' + response.lowest_price)
+                } catch(err) {}
             }
 
             let result = '```\n' + bananasResult.join('\n') + '\n```';

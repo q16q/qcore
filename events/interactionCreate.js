@@ -1,8 +1,15 @@
 const { Events } = require('discord.js');
+const fs = require('fs');
 
 module.exports = {
 	name: Events.InteractionCreate,
 	async execute(interaction) {
+		if (interaction.isModalSubmit()) {
+			fs.readdirSync('./events/modalListeners').filter(f => f.endsWith('.js')).forEach(async file => {
+				let module = require(`./modalListeners/${file}`);
+				if(module.name == interaction.customId) await module.execute(interaction);
+			})
+		}
 		if (!interaction.isChatInputCommand()) return;
 
 		const command = interaction.client.commands.get(interaction.commandName);
