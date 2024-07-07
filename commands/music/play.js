@@ -19,6 +19,7 @@ module.exports = {
         const playlist = interaction.options.getBoolean('playlist');
         if(query.includes('soundcloud.com') && query.includes('/likes'))
             return await interaction.reply('`❌: Лайки SoundCloud пока не поддерживаются!`').catch(() => {});
+        if(client.vclib.soundcloudDisabled) return await interaction.reply('`❌: SoundCloud заблокирован в России!`').catch(() => {});
         let reply = await interaction.reply('`🔄️: Прогружаю треки...`').catch(() => {});
 
         let vc = interaction.member.voice.channel;

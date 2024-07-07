@@ -14,7 +14,7 @@ module.exports = {
         client.vclib.currentConnection = null;
         client.vclib.shuffled = false;
         client.vclib.beforeShuffle = null;
-        play.setToken({ soundcloud: { client_id: (await play.getFreeClientID()) } })
+        play.setToken({ soundcloud: { client_id: (await play.getFreeClientID().catch(err => client.vclib.soundcloudDisabled = true)) } })
         
         client.log(0, 'loaded google api key', 'voicelib')
 
@@ -140,7 +140,7 @@ module.exports = {
 
         client.vclib.getInfo = async (url, type) => {
             if(!url) return;
-            if(type.includes('so')) return await play.soundcloud(url)
+            if(type.includes('so') && !client.vclib.soundcloudDisabled) return await play.soundcloud(url)
             if(type.includes('sp')) return await play.spotify(url)
             if(type.includes('dz')) return await play.deezer(url)
             if(type == 'yt_video') return (await play.video_info(url)).video_details

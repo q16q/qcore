@@ -52,7 +52,7 @@ module.exports = {
         } else if(interaction.options.getSubcommand() === 'dump'){
             const overwrite = interaction.options.getBoolean('overwrite');
 
-            let members = (await (await interaction.client.guilds.fetch(require('../../config.json').guildId))
+            let members = (await (await interaction.client.guilds.fetch(require('../../configs/config.env.json').guildId))
                 .members.fetch())
                 .toJSON();
             
